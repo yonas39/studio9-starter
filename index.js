@@ -3,7 +3,8 @@ export const dom = {
 	tasksList: document.querySelector("#tasks_list"),
 	taskTemplate: document.querySelector("#task_template"),
 	doneCount: document.querySelector("#done_count"),
-	totalCount: document.querySelector("#total_count")
+	totalCount: document.querySelector("#total_count"),
+	saveButton: document.querySelector("#save_button"),
 };
 
 // Initialize data. Do we have anything stored?
@@ -17,6 +18,11 @@ else {
 	// Add one empty task to start with
 	addItem();
 }
+
+// Save when the save button is clicked
+dom.saveButton.addEventListener("click", e => {
+	localStorage.tasks = JSON.stringify(getData());
+});
 
 // Keyboard shortcuts
 dom.tasksList.addEventListener("keyup", e => {
@@ -56,11 +62,6 @@ dom.tasksList.addEventListener("keydown", e => {
 	else if (e.key === "ArrowDown") {
 		focusTask(li.nextElementSibling ?? dom.tasksList.firstElementChild);
 	}
-});
-
-// Store data when page is closed
-globalThis.addEventListener("beforeunload", () => {
-	localStorage.tasks = JSON.stringify(getData());
 });
 
 /**
